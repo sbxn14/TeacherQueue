@@ -1,0 +1,26 @@
+﻿@model TeacherQueue.Models.ViewModels.QueueStudentViewModel
+
+<!DOCTYPE html>
+
+@{
+    var title = Model.SelectedTeacher.FirstMidName + " " + Model.SelectedTeacher.LastName + "'s Queue";
+}
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@title</title>
+</head>
+<body>
+    <h1>Welcome to @title !</h1>
+    <br />
+    <ol>
+        @{
+            foreach (var m in Model.SelectedTeacher.Queue.StudentQueues)
+            {
+                <li>@</li>
+            }
+        }
+    </ol>
+</body>
+</html>

@@ -1,37 +1,41 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+using TeacherQueue.DAL;
 using TeacherQueue.Models;
+using TeacherQueue.Models.ViewModels;
 
 namespace TeacherQueue.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly QueueContext _context;
+
+        public HomeController(QueueContext context)
+        {
+            _context = context;
+        }
+
         public IActionResult Index()
         {
-            return View();
-        }
+            IndexViewModel model = new IndexViewModel
+            {
+                TeachersWithQueue = _context.Teachers.Where(o => o.HasQueue == true).ToList()
+            };
 
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
+            //prepare list of teachers with a queue for the dropdown menu
+            List<SelectListItem> items = new List<SelectListItem>();
 
-            return View();
-        }
+            foreach (var t in model.TeachersWithQueue)
+            {
+                items.Add(new SelectListItem(t.FirstMidName + " " + t.LastName, t.Id.ToString()));
+            }
 
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
+            ViewData["TeacherQueuesList"] = items;
 
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
+            return View(model);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

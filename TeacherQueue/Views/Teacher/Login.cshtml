@@ -1,0 +1,28 @@
+﻿@model TeacherQueue.Models.ViewModels.LoginViewModel
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+</head>
+<body>
+@using (Html.BeginForm("Login", "Teacher", FormMethod.Post))
+{
+    @Html.AntiForgeryToken();
+    @Html.ValidationSummary(false);
+
+    @Html.LabelFor(m => m.Email)
+    @Html.TextBoxFor(m => m.Email, new { type = "email" })
+    <br />
+    @Html.LabelFor(m => m.Password)
+    @Html.TextBoxFor(m => m.Password, new { type = "password" })
+    <br />
+    @Html.LabelFor(m => m.IsRemember)
+    @Html.CheckBoxFor(m => m.IsRemember)
+    <br />
+    <input type="submit" value="Login" />
+}
+</body>
+</html>
